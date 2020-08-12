@@ -53,8 +53,6 @@ def button(color, light_color, x, y, w, h, msg_color, msg):
 
 def intro(msg=None):
     game_intro = True
-    dis_width = 1000
-    dis_height = 800
     dis = display.set_mode((0, 0), pygame.FULLSCREEN)
     while game_intro:
         dis.fill(white)
@@ -66,7 +64,6 @@ def intro(msg=None):
                 dictionary = event.dict
                 dis_width = dictionary['w']
                 dis_height = dictionary['h']
-        print(dis_width, dis_height)
         if not msg is None:
             msg_txt = msg['txt']
             msg_x = msg['x']
