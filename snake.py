@@ -81,7 +81,6 @@ def intro(msg=None):
 
 def gameLoop(dis):
     dis_width, dis_height = dis.get_size()
-    print(dis_width, dis_height)
     game_over = False
     game_close = False
 
