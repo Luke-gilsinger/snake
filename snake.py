@@ -11,10 +11,6 @@ green = (0, 200, 0)
 light_red = (255, 0, 0)
 light_green = (0, 255, 0)
 blue = (50, 153, 213)
-
-dis_width = 1000
-dis_height = 800
-
 display = pygame.display
 dis = display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption('Snake Game by Ultraprogamer and Lukeg007')
@@ -57,13 +53,20 @@ def button(color, light_color, x, y, w, h, msg_color, msg):
 
 def intro(msg=None):
     game_intro = True
+    dis_width = 1000
+    dis_height = 800
+    dis = display.set_mode((0, 0), pygame.FULLSCREEN)
     while game_intro:
+        dis.fill(white)
         for event in pygame.event.get():
-            print(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        dis.fill(white)
+            if event.type == pygame.VIDEORESIZE:
+                dictionary = event.dict
+                dis_width = dictionary['w']
+                dis_height = dictionary['h']
+        print(dis_width, dis_height)
         if not msg is None:
             msg_txt = msg['txt']
             msg_x = msg['x']
@@ -73,13 +76,15 @@ def intro(msg=None):
             msg_size = msg['size']
             message(msg_txt, msg_color, msg_x, msg_y, msg_font, msg_size)
         message('Snake', black, dis_width / 2, dis_height / 2 - 150, 'comicsansms.ttf', 35)
-        button(green, light_green, dis_width / 2 - 200, dis_height / 2 + 300, 100, 50, white, 'Play')
+        button(green, light_green, dis_width / 2 - 200, dis_height / 2 + 100, 100, 50, white, 'Play')
         button(red, light_red, dis_width / 2 + 100, dis_height / 2 + 50, 100, 50, white, 'Quit')
         pygame.display.update()
         clock.tick(15)
 
 
-def gameLoop():
+def gameLoop(dis):
+    dis_width, dis_height = dis.get_size()
+    print(dis_width, dis_height)
     game_over = False
     game_close = False
 
@@ -99,9 +104,6 @@ def gameLoop():
     while not game_over:
 
         while game_close == True:
-            global dis
-            dis = display.set_mode((1000, 800), pygame.RESIZABLE)
-            print('test')
             intro(msg={'txt': 'You lost!', 'color': light_red, 'x': dis_width / 2, 'y': dis_height / 2 - 90, 'font': 'bahnschrift.ttf', 'size': 25})
 
         for event in pygame.event.get():
@@ -121,8 +123,6 @@ def gameLoop():
                 elif event.key == pygame.K_DOWN:
                     y1_change = snake_block
                     x1_change = 0
-                elif event.key == pygame.K_F11:
-                    dis = display.set_mode((1000, 800), pygame.RESIZABLE)
 
         if x1 >= dis_width or x1 < 0 or y1 >= dis_height or y1 < 0:
             game_close = True
@@ -159,5 +159,5 @@ def gameLoop():
 
     pygame.quit()
     quit()
-dis = display.set_mode((0, 0), pygame.FULLSCREEN)
-gameLoop()
+
+gameLoop(display.set_mode((0, 0), pygame.FULLSCREEN))
