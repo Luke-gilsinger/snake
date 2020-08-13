@@ -54,6 +54,8 @@ def button(color, light_color, x, y, w, h, msg_color, msg):
 def intro(msg=None):
     game_intro = True
     dis = display.set_mode((0, 0), pygame.FULLSCREEN)
+    dis_height = display.get_surface().get_height()
+    dis_width = display.get_surface().get_width()
     while game_intro:
         dis.fill(white)
         for event in pygame.event.get():
