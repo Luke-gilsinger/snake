@@ -62,10 +62,6 @@ def intro(msg=None):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.VIDEORESIZE:
-                dictionary = event.dict
-                dis_width = dictionary['w']
-                dis_height = dictionary['h']
         if not msg is None:
             msg_txt = msg['txt']
             msg_x = msg['x']
