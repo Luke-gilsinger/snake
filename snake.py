@@ -138,7 +138,7 @@ def gameLoop(dis, snake_style_pos, clock):
                 Length_of_snake += 1
                 high_score_file = open('high_score.pyv', 'r+')
                 high_score = int(high_score_file.read().replace('\x00', ''))
-                if Length_of_snake > high_score:
+                if Length_of_snake - 1 > high_score:
                     high_score = high_score + 1
                     high_score_file.truncate(0)
                     high_score_file.write(str(high_score))
