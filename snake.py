@@ -30,12 +30,16 @@ def message(msg, color, x, y, font, size):
 
 
 def Your_score(score):
-    message("Your Score: " + str(score), yellow, 25, 15, "comicsansms.ttf", 35)
+    high_score_file = open('high_score.pyv', 'r')
+    high_score = high_score_file.read().replace('\x00', '')
+    print(high_score)
+    high_score_file.close()
+    message("Your Score: " + str(score), yellow, 110, 15, "comicsansms.ttf", 35)
+    message("High Score: " + str(high_score), yellow, 110, 45, "comicsansms.ttf", 35)
 
 
 def our_snake(snake_block, snake_list):
     for x in snake_list:
-        print(x)
         pygame.draw.rect(dis, x[2], [x[0], x[1], snake_block, snake_block])
 
 
@@ -43,7 +47,7 @@ def food(color, x, y, get_snake_block):
     pygame.draw.rect(dis, color, [x, y, get_snake_block, get_snake_block])
 
 
-def gameLoop(dis, snake_style_pos):
+def gameLoop(dis, snake_style_pos, clock):
     dis_width, dis_height = dis.get_size()
     game_over = False
     game_close = False
@@ -65,8 +69,8 @@ def gameLoop(dis, snake_style_pos):
 
         while game_close == True:
             pygame.quit()
-            il.intro(True)
-
+            while True:
+                il.intro(True)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -132,7 +136,13 @@ def gameLoop(dis, snake_style_pos):
                 except KeyError:
                     pass
                 Length_of_snake += 1
-
+                high_score_file = open('high_score.pyv', 'r+')
+                high_score = int(high_score_file.read().replace('\x00', ''))
+                if Length_of_snake > high_score:
+                    high_score = high_score + 1
+                    high_score_file.truncate(0)
+                    high_score_file.write(str(high_score))
+                high_score_file.close()
         clock.tick(snake_speed)
 
     pygame.quit()
@@ -145,4 +155,4 @@ display = pygame.display
 dis = display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption('Snake Game by Ultraprogamer and Lukeg007')
 clock = pygame.time.Clock()
-gameLoop(display.set_mode((0, 0), pygame.FULLSCREEN), snake_style_pos)
+gameLoop(display.set_mode((0, 0), pygame.FULLSCREEN), snake_style_pos, clock)
